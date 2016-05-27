@@ -226,6 +226,7 @@ app.get('/user/:val',function(req,res){
 
 })
 
+//routing to pages
 app.get('/',function(req,res){
   res.render('login',{"message":""})
 });

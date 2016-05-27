@@ -6,118 +6,85 @@
 <title>Library Application</title>
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
-<script type="text/javascript">
-			(function(){
-				window.addEventListener('load',function(){
-
-				var btnLog = document.getElementById('adminlog');
-				var btnClose = document.getElementById('btnclose');
-				var target = document.getElementById('logField');
-				
-
-				var drpdown = {
-					adminToggleDown: function(){
-						target.setAttribute('class', "open")
-					},
-
-					adminToggleUp: function(){
-						target.setAttribute('class','backup')
-					}
-					
-				};
-
-
-
-				btnLog.addEventListener('click',drpdown.adminToggleDown,false);
-				btnClose.addEventListener('click',drpdown.adminToggleUp,false);
-				
-
-				})
-
-			})()
-			
-</script>
-
 </head>
-
 <body>
     <div id="wrapper" class = "container-fluid">
-            <header class="container">
-            	<div class="row">
-            		<div class="col-sm-6 col-md-6 col-lg-6 logo">
-            			<a href="/">Go<span>Library</span></a>
-            		</div>
-            		<div class="col-sm-6 col-md-6 col-lg-6">
-            			
-            		</div>
-            	</div>
-            </header>
-            <section class="container-fluid download">
-            	<div class="ct">
-                	<img src="/assets/images/babe.png"/>
-                    <div class="dg">
-                        <p><%= message %></p>
-                    	<p class="prac">
-                        	LOGIN 
-                        </p>
-                        <form method="POST" action="/login" enctype="">
-                        	<input type="text" name="username" placeholder="Enter username" class="lg" required/><br/>
-                        	<input type="password" name="password" placeholder="Enter password" class="lg" required/><br/>
-                        	<input type="submit" value="send" class="userlogin btn btn-primary"/>
-                        </form> 
-                        <p class="notmember">Not yet a member? <a href="/signup">Register</a></p>                       
-                    </div>
+        <header class="container">
+        	<div class="row">
+        		<div class="col-sm-6 col-md-6 col-lg-6 logo">
+        			<a href="/">Go<span>Library</span></a>
+        		</div>
+        		<div class="col-sm-6 col-md-6 col-lg-6">
+        			
+        		</div>
+        	</div>
+        </header>
+        <section class="container-fluid download">
+        	<div class="ct">
+            	<img src="/assets/images/babe.png"/>
+                <div class="dg">
+                    <p><%= message %></p>
+                	<p class="prac">
+                    	LOGIN 
+                    </p>
+                    <form method="POST" action="/login" enctype="">
+                    	<input type="text" name="username" placeholder="Enter username" class="lg" required/><br/>
+                    	<input type="password" name="password" placeholder="Enter password" class="lg" required/><br/>
+                    	<input type="submit" value="send" class="userlogin btn btn-primary"/>
+                    </form> 
+                    <p class="notmember">Not yet a member? <a href="/signup">Register</a></p>                       
                 </div>
-            </section>            
-            <footer class="container-fluid">
-                <div class="row innerfoot">
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                    <ul>
-                        <li class="hd">Test & Resources</li>
-                        <li><a href="#">JAMB PAST QUESTIONS </a></li>
-                        <li><a href="#">WAEC WAECM PAST QUESTIONS</a></li>
-                        <li><a href="#">POST UME PASS QUESTIONS</a></li>
-                        <li><a href="#">NECO PAST QUESTIONS</a></li>
-                        <li><a href="#">MOCK TESTBOOK</a></li>
-                        <li><a href="#">EXAM GUIDE HANDOUT</a></li>
-                    </ul>
-                    <ul>
-                        <li class="hd">Menu</li>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Feedback</a></li>
-                        <li><a href="#">Class</a></li>
-                        <li><a href="#">Library</a></li>
-                    </ul>
-                    <ul>
-                        <li class="hd">Socials</li>
-                        <li><a href="#">Google+</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                    <div class="sign">
-                        <a href="#">info@ANDELA.com</a>
-                        <p>Sign up for our newsletter and we'll inform you of <br/>
-                        updates, offers and more...</p>
-                        <form>
-                            <input type="email" placeholder="Your Email Address" />
-                            <a href="#"><span>Sign up</span></a>
-                        </form>
-                    </div>
-                    </div>
-                    
+            </div>
+        </section>            
+        <footer class="container-fluid">
+            <div class="row innerfoot">
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                <ul>
+                    <li class="hd">Test & Resources</li>
+                    <li><a href="#">JAMB PAST QUESTIONS </a></li>
+                    <li><a href="#">WAEC WAECM PAST QUESTIONS</a></li>
+                    <li><a href="#">POST UME PASS QUESTIONS</a></li>
+                    <li><a href="#">NECO PAST QUESTIONS</a></li>
+                    <li><a href="#">MOCK TESTBOOK</a></li>
+                    <li><a href="#">EXAM GUIDE HANDOUT</a></li>
+                </ul>
+                <ul>
+                    <li class="hd">Menu</li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Class</a></li>
+                    <li><a href="#">Library</a></li>
+                </ul>
+                <ul>
+                    <li class="hd">Socials</li>
+                    <li><a href="#">Google+</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <p class="copyright">Copyright @ 2016, ANDELA Bootcamp</p>
-                    </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="sign">
+                    <a href="#">info@ANDELA.com</a>
+                    <p>Sign up for our newsletter and we'll inform you of <br/>
+                    updates, offers and more...</p>
+                    <form>
+                        <input type="email" placeholder="Your Email Address" />
+                        <a href="#"><span>Sign up</span></a>
+                    </form>
                 </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p class="copyright">Copyright @ 2016, ANDELA Bootcamp</p>
+                </div>
+            </div>
 
-            </footer>
-        </div>
+        </footer>
+        
     </div><!-- end of wrapper div -->
         <script type="text/javascript" src= "/assets/js/source.js"></script>
         <script type="text/javascript" src= "/assets/js/client.js"></script>
