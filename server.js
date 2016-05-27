@@ -74,9 +74,7 @@ app.post('/login',function(req,res){
 	  	if(user){
 		  	if(isValidPassword(user,req.body.password)){    
 			    newBook.find({},function(err,books){
-				  if(err) throw err;
-				  console.log(books);
-				  console.log(books[4]);
+				  if(err) throw err;				  
 				  res.render('user',{"books": books})
 				})	
 			}else {
@@ -91,8 +89,6 @@ app.post('/signup',function(req,res){
 	var password = createHash(req.body.password);
 	newUser.findOne({"username": req.body.username},function(err,user){
 		if(err) throw err;
-
-		console.log(user)
 		if(user){
 			res.render('signup',{"message" : "username already exist"})
 		} else {
@@ -202,9 +198,7 @@ app.post('/books',function(req,res){
 app.get('/user/:val',function(req,res){
 	if(req.params.val === "jkjustkidding"){
 		newBook.find({},function(err,books){
-			if(err) throw err;
-			console.log(books)
-			console.log(books[4])
+			if(err) throw err;		
 			res.render('user',{"books": books})
 		});
 		
