@@ -139,6 +139,7 @@ app.get('/api/delete',function(req,res){
 	});
 });
 
+//deleting all books
 app.get('/api/deleteAll',function(req,res){
 	newBook.remove({},function(err,book){		
 		newBook.find({},function(err,books){
