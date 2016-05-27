@@ -1,0 +1,349 @@
+/* NORMALIZE CSS */
+@font-face {
+    font-family: 'museo_sans300';
+    src: url('../fonts/museosans-300-webfont.eot');
+    src: url('../fonts/museosans-300-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museosans-300-webfont.woff2') format('woff2'),
+         url('../fonts/museosans-300-webfont.woff') format('woff'),
+         url('../fonts/museosans-300-webfont.ttf') format('truetype'),
+         url('../fonts/museosans-300-webfont.svg#museo_sans300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'museo_sans100';
+    src: url('../fonts/museosans-100-webfont.eot');
+    src: url('../fonts/museosans-100-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museosans-100-webfont.woff2') format('woff2'),
+         url('../fonts/museosans-100-webfont.woff') format('woff'),
+         url('../fonts/museosans-100-webfont.ttf') format('truetype'),
+         url('../fonts/museosans-100-webfont.svg#museo_sans100') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+	font-family: 'museo_sans300';
+	font-style: normal;
+	background-color: #323a45;
+}
+
+a {
+	text-decoration: none !important;
+	color: black;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+header,nav,footer,
+section {
+	display: block;
+}
+
+div {
+	padding: 0!important;
+	margin: 0!important;
+}
+
+/** main style ***/
+
+
+
+/*content section*/
+#wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+header {
+	background-color: #323a45;
+	position: relative;
+}
+
+header div.logo a {
+	display: inline-block;
+	font-size: 50px;
+	color: #fff;
+	padding: 20px 15px;
+}
+
+header div.logo a > span{
+	font-size: 25px;
+	color: #94b71d;
+}
+
+header p.admin {
+	text-align: right;
+
+}
+
+header p.admin button {
+	background-color: inherit;
+	border: 1px solid #fff;
+	padding: 20px 10px;
+	color: rgba(255,255,255,0.8);
+	border-radius: 20px;
+	margin: 30px 30px 10px;
+}
+
+
+
+
+#logfield {
+	position: relative;
+
+}
+
+#logfield form{
+	text-align: right;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0
+	top:0;
+}
+
+#logfield input{
+	border: 1px solid #fff;
+	padding: 10px 10px;
+	margin-top: 15px;
+	background-color: rgba(255,255,255,0.8);
+	border-radius: 10px;
+}
+
+#logfield input.btn {
+	background-color: inherit;
+	color: #fff;
+}
+
+/**body**/
+
+.download {
+	background-color: #94b71d;
+}
+
+.download div.ct {
+	padding: 200px 0px;
+}
+
+.download div.ct img {
+	width: 25%;
+	height: 15%;
+	margin-left: 150px;
+	margin-top:30px;
+}
+
+.download div.ct div {
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	width: 47%;
+	margin-left: 80px!important;
+	position: relative;
+	top: 120px;
+}
+
+.download div.ct img, div.dg {
+	display: inline-block;
+}
+
+.download div.ct div.dg p.prac {
+	font-size: 35px;
+	color: #fff;
+	font-weight: 700;
+	padding: 20px 15px;
+	text-align: center;
+	color: #fff;
+}
+
+.dg form {
+	text-align:  center;
+	margin-bottom: 20px;
+}
+
+.dg form > input.lg {
+	width: 80%;
+	padding: 10px 10px;
+	margin-bottom: 10px;
+	border: none;
+	border-radius: 20px;
+	font-size: 18px;
+}
+
+.dg p.notmember{
+	color: #fff;
+	font-size: 18px;
+	text-align:  center;
+}
+
+.main {
+	margin: 20px auto!important;	
+	width:80%;
+	border: 1px solid rgba(0,0,0,0.5);
+}
+
+.main table{
+	width: 100%;
+
+}
+
+.main tbody{
+	background-color: rgba(0,0,0,0.1);
+	border-bottom: 1px dotted green;
+}
+
+.main thead{
+	background-color: green;
+	color: #fff;
+}
+
+.main th{
+	padding: 10px 10px;
+}
+.main th,td {
+	padding-left: 10px
+}
+
+.main td {
+	padding: 10px 15px;
+	font-size: 16px;
+	font-style:italic;
+}
+
+.infobooks p {
+	text-align: center;
+}
+
+.infobooks p > a{
+	text-align: center; 
+	color : green; 
+	font-size: 18px;
+	display:block;
+	padding: 10px 10px;
+	 background-color: green;
+	 width: 100px;
+	 margin: 0 auto
+}
+
+.adding_content_div {
+	margin: 200px 0px;
+}
+
+.container-fluid {
+	min-height: 500px!important;
+}
+
+footer {
+	background-color: #323a45;
+	min-height: 350px;
+	margin-top:  50px
+}
+
+footer div.innerfoot {
+	width: 80%;
+	margin: 0 auto!important;
+	padding: 10px 0px!important;
+}
+
+footer div.innerfoot ul,.innerfoot div{
+	float: left;
+}
+
+footer div.innerfoot ul {
+	width: 33%;
+	padding-top: 20px;
+	padding-left: 40px;
+	
+}
+
+footer div.innerfoot li.hd{
+	color: #94b71d;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 30px;
+}
+
+footer div.innerfoot li a {
+	color: #fff;
+	display: block;
+	padding: 5px 2px; 
+}
+
+footer div.innerfoot div.sign a {
+	color: #06C;
+	padding-top: 20px;
+	font-weight: bold;
+	font-size: 15px;
+	padding-bottom: 30px;
+}
+
+footer div.innerfoot div.sign p {
+	color: #fff;
+	color: rgba(255,255,255,0.8);
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom: 30px;
+}
+
+footer div.innerfoot div.sign input{
+	padding: 9px 0px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	text-indent: 8px;
+	width: 74%;
+	border: none;
+	-webkit-border-bottom-right-radius: 0px;
+	-moz-border-bottom-right-radius: 0px;
+	-o-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-moz-border-top-right-radius: 0px;
+	-o-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+footer div.innerfoot div.sign form a {
+	display: inline-block;
+	background-color: #fff;
+	padding: 5px 15px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	margin-left: -9px;
+	color: #fff;
+	font-size: 14px;
+}
+
+footer div.innerfoot div.sign form a span {
+	display:block;
+	background-color: #94b71d;
+	padding: 4px 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}
+
+footer  p.copyright {
+	padding-top: 30px;
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+}
+
+
+
+
+
+

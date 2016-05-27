@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "myapp">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Library Application</title>
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
+
+</head>
+
+<body>
+    <div id="wrapper" class = "container-fluid">
+            <header class="container">
+            	<div class="row">
+            		<div class="col-sm-6 col-md-6 col-lg-6 logo">
+            			<a href="/">Go<span>Library</span></a>
+            		</div>
+            		<div class="col-sm-6 col-md-6 col-lg-6">
+            			<h3 style="text-align:center; color: red"><%= message %></h3>
+            		</div>
+            	</div>
+            </header>
+            
+            <section class="container-fluid" style="background-color: #fff">
+                <div class="main" style="background-color: #eee; text-align: center">
+                    <form method="POST" action="/books">
+                        <p>ADD BOOK TO COLLECTIONS</p>
+                        <fieldset>
+                            <label for="id">Book id :</label>
+                            <input type="text" name="id" placeholder= "enter id" required/><br/>
+                            <label for="title">Book title :</label>
+                            <input type="text" name="title" placeholder= "enter title" required/><br/>
+                            <label for="category">Book category :</label>
+                            <input type="text" name="category" placeholder="enter type" reqiured/><br/>
+                            <label for="status">Book status :</label>
+                            <input type="text" name="status" placeholder= "enter status" required/><br/>
+                            <input type="submit" value="Add Book"/>
+                        </fieldset>
+                    </form>
+                    <hr/>
+                    <form method="GET" action="/api/return">
+                    <p>MARK BOOK AS AVAILABLE</p>                   
+                    <label for="id">Returned Book</label>
+                    <input type="text" name="id" placeholder =" enter book id" required/>
+                    <input type="submit" value="send"/>
+                    </form>
+                    <hr/>
+                    <form method="DELETE" action="/api/delete">
+                    <p>DELETE BOOKS</p>    
+                    <label for="id">Delete Book by ID</label>
+                    <input type="text" name="id" required/>
+                    <input type="submit" value="send"/>
+                    </form><br/>
+                    <p></p>
+                    <a href="/api/deleteAll"> Delete All Books</a><br/>
+                    <hr/>
+                    <form method="GET" action='/api/surcharge'>
+                    <p>SURCHARGE BOOK</p>    
+                    <label for="id">Surcharge Book by ID</label>
+                    <input type="text" name="id" required/>
+                    <input type="submit" value="send"/>
+                    </form>
+                    <hr/>
+                    
+                    <hr/> 
+                    <a href="/user/jkjustkidding">View Books</a>
+                </div>
+            </section>            
+            <footer class="container-fluid">
+                <div class="row innerfoot">
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                    <ul>
+                        <li class="hd">Test & Resources</li>
+                        <li><a href="#">JAMB PAST QUESTIONS </a></li>
+                        <li><a href="#">WAEC WAECM PAST QUESTIONS</a></li>
+                        <li><a href="#">POST UME PASS QUESTIONS</a></li>
+                        <li><a href="#">NECO PAST QUESTIONS</a></li>
+                        <li><a href="#">MOCK TESTBOOK</a></li>
+                        <li><a href="#">EXAM GUIDE HANDOUT</a></li>
+                    </ul>
+                    <ul>
+                        <li class="hd">Menu</li>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Class</a></li>
+                        <li><a href="#">Library</a></li>
+                    </ul>
+                    <ul>
+                        <li class="hd">Socials</li>
+                        <li><a href="#">Google+</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="sign">
+                        <a href="#">info@ANDELA.com</a>
+                        <p>Sign up for our newsletter and we'll inform you of <br/>
+                        updates, offers and more...</p>
+                        <form>
+                            <input type="email" placeholder="Your Email Address" />
+                            <a href="#"><span>Sign up</span></a>
+                        </form>
+                    </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <p class="copyright">Copyright @ 2016, ANDELA Bootcamp</p>
+                    </div>
+                </div>
+
+            </footer>
+        </div>
+    </div><!-- end of wrapper div -->
+        <script type="text/javascript" src= "/assets/js/source.js"></script>
+        <script type="text/javascript" src= "/assets/js/client.js"></script>
+        <script type="text/javascript" src="/assets/js/ngroute.js"></script>
+</body>
+</html>

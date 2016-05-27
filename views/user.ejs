@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "myapp">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Library Application</title>
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
+<script type="text/javascript">
+			(function(){
+				window.addEventListener('load',function(){
+
+				var btnLog = document.getElementById('adminlog');
+				var btnClose = document.getElementById('btnclose');
+				var target = document.getElementById('logField');
+				
+
+				var drpdown = {
+					adminToggleDown: function(){
+						target.setAttribute('class', "open")
+					},
+
+					adminToggleUp: function(){
+						target.setAttribute('class','backup')
+					}
+					
+				};
+
+
+
+				btnLog.addEventListener('click',drpdown.adminToggleDown,false);
+				btnClose.addEventListener('click',drpdown.adminToggleUp,false);
+				
+
+				})
+
+			})()
+			
+</script>
+
+</head>
+
+<body>
+    <div id="wrapper" class = "container-fluid">
+            <header class="container">
+            	<div class="row">
+            		<div class="col-sm-6 col-md-6 col-lg-6 logo">
+            			<a href="/">Go<span>Library</span></a>
+            		</div>
+            		<div class="col-sm-6 col-md-6 col-lg-6">
+            			<p class="admin pull-right" >
+            				<a href ="/signout" style="color:#fff!important;display: block;padding: 15px 10px; margin-top: 30px;
+                             font-size: 18px;background-color: inherit;width: 100px">Sign out</a>
+            			</p>
+            			
+            		</div>
+            	</div>
+            </header>
+            <section class="container-fluid" style="background-color: #eee">
+            	<div class="main">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">S/N</th>
+                                <th style="width: 25%">TITLE</th>
+                                <th style="width: 17%">CATEGORY</th>
+                                <th style="width: 15%">STATUS</th>
+                                <th style="width: 10%">BOOK ID</th>
+                                <th style="width: 15%">DATE / TIME</th>
+                                <th style="width: 18%">DELAY(#)</th>
+                            </tr>
+                        </thead>
+                        <% for(var i = 1; i < books.length; i++) { %>
+                        <tbody>
+                            <tr>
+                                <td style="width: 10%"><%= i %></td>
+                                <td style="width: 25%"><a href="/api/user/<%= books[i].book_id %>"><%= books[i].book_title%></a></td>
+                                <td style="width: 17%"><%= books[i].category %></td>
+                                <td style="width: 15%"><%= books[i].status %></td>
+                                <td style="width: 10%"><%= books[i].book_id %></td>
+                                <td style="width: 15%"><%= books[i].date_of_collection %></td>
+                                <td style="width: 18%; color : red"><%= books[i].surcharge %></td>
+                            </tr>
+                        </tbody>
+                        <% } %>
+                    </table>
+                </div>
+                
+            </section>            
+            <footer class="container-fluid">
+            	<div class="row innerfoot">
+                	<div class="col-sm-8 col-md-8 col-lg-8">
+                    <ul>
+                    	<li class="hd">Test & Resources</li>
+                        <li><a href="#">JAMB PAST QUESTIONS </a></li>
+                        <li><a href="#">WAEC WAECM PAST QUESTIONS</a></li>
+                        <li><a href="#">POST UME PASS QUESTIONS</a></li>
+                        <li><a href="#">NECO PAST QUESTIONS</a></li>
+                        <li><a href="#">MOCK TESTBOOK</a></li>
+                        <li><a href="#">EXAM GUIDE HANDOUT</a></li>
+                	</ul>
+                    <ul>
+                    	<li class="hd">Menu</li>
+                    	<li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Class</a></li>
+                        <li><a href="#">Library</a></li>
+                    </ul>
+                    <ul>
+                    	<li class="hd">Socials</li>
+                    	<li><a href="#">Google+</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="sign">
+                    	<a href="#">info@ANDELA.com</a>
+                    	<p>Sign up for our newsletter and we'll inform you of <br/>
+                        updates, offers and more...</p>
+                        <form>
+                        	<input type="email" placeholder="Your Email Address" />
+                            <a href="#"><span>Sign up</span></a>
+                        </form>
+                    </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                   	 	<p class="copyright">Copyright @ 2016, ANDELA Bootcamp</p>
+                    </div>
+                </div>
+
+            </footer>
+        </div>
+    </div><!-- end of wrapper div -->
+    	<script type="text/javascript" src= "/assets/js/source.js"></script>
+		<script type="text/javascript" src= "/assets/js/client.js"></script>
+        <script type="text/javascript" src="/assets/js/ngroute.js"></script>
+</body>
+</html>
+
