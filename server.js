@@ -41,20 +41,31 @@ var bookSchema = Schema({
 });
 
 
-
+//model
 var newUser = mongoose.model('userInfo', personSchema);
 var newBook = mongoose.model('bookInfo',bookSchema);
 
+//config
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');    
 
+
+//middleware
+app.use(expressSession({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+app.use('/assets',express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/assets',express.static(__dirname + '/public'));
 
 
 
 
+//hashing password
 var createHash = function(password){
   return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };
@@ -63,8 +74,8 @@ var isValidPassword = function(user, password){
   return bCrypt.compareSync(password, user.password);
 };
 
-//user login
 
+//user login
 app.post('/login',function(req,res){		
   newUser.findOne({username:req.body.username},function(err,user){
 	  	if(!user){
@@ -123,7 +134,9 @@ app.get('/api/user/:thebook',function(req,res){
 	var formatted = dt.format('m/d/Y H:M:S');
 	newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){		
 		newBook.find({},function(err,books){
-			if(err) throw err;
+			if(err){
+  				res.send("error: 404 not found")
+  			}
 			res.render('user',{"books": books})
 		});		
 	});
@@ -131,14 +144,20 @@ app.get('/api/user/:thebook',function(req,res){
 
 //deleting a book
 app.get('/api/delete',function(req,res){
-	newBook.remove({book_id: req.query.id},function(err,book){		
+	newBook.remove({book_id: req.query.id},function(err,book){
+		if(err){
+  			res.send("error: 404 not found")
+  		}		
 		res.render('admin',{"message":""})
 	});
 });
 
 //deleting all books
 app.get('/api/deleteAll',function(req,res){
-	newBook.remove({},function(err,book){		
+	newBook.remove({},function(err,book){
+		if(err){
+  			res.send("error: 404 not found")
+  		}		
 		res.render('admin',{"message":""})
 	});
 });
@@ -146,6 +165,9 @@ app.get('/api/deleteAll',function(req,res){
 //api surcharging user
 app.get('/api/surcharge',function(req,res){
   newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
+  		if(err){
+  			res.send("error: 404 not found")
+  		}
 		res.render('admin',{"message":""})
   });
 });
@@ -162,6 +184,9 @@ app.get('/api/return',function(req,res,next){
 //Adding books by admin
 app.post('/books',function(req,res){
 	newBook.findOne({"book_id": req.body.id},function(err,user){
+		if(err){
+  			res.send("error: 404 not found")
+  		}
 		if(user){
 			res.render('admin',{"message": "Book identity number already exist"})
 		} else {
@@ -216,7 +241,7 @@ app.get('/user',function(req,res){
 });
 
 app.get('/signout',function(req,res){
-	res.redirect('/')
+   res.redirect('/')
 });
 
 app.get('/admin/godson',function(req,res){
