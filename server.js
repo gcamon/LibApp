@@ -132,20 +132,14 @@ app.get('/api/user/:thebook',function(req,res){
 //deleting a book
 app.get('/api/delete',function(req,res){
 	newBook.remove({book_id: req.query.id},function(err,book){		
-		newBook.find({},function(err,books){
-			if(err) throw err;
-			res.render('user',{"books": books})
-		});		
+		res.render('admin',{"message":""})
 	});
 });
 
 //deleting all books
 app.get('/api/deleteAll',function(req,res){
 	newBook.remove({},function(err,book){		
-		newBook.find({},function(err,books){
-			if(err) throw err;
-			res.render('user',{"books": books})
-		});		
+		res.render('admin',{"message":""})
 	});
 });
 
@@ -222,7 +216,6 @@ app.get('/user',function(req,res){
 });
 
 app.get('/signout',function(req,res){
-	req.logout()
 	res.redirect('/')
 });
 
