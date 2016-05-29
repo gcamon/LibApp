@@ -27,6 +27,7 @@
     "express-session": "^1.13.0",
     "moment": "^2.13.0",
     "mongoose": "^4.4.19",
+    "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "node-datetime": "^1.0.0",
     "passport": "^0.3.2",
