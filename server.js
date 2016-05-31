@@ -13,7 +13,7 @@ app.listen(port);
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
+var session = require('express-session');
 var flash = require('connect-flash')
 var bCrypt = require('bcrypt-nodejs');
 var datetime = require('node-datetime');
@@ -52,19 +52,14 @@ app.set('views', __dirname + '/views');
 
 
 //middleware
-app.use(expressSession({
+app.use(session({
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: true,
-}))
+}));
 app.use('/assets',express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(morgan('dev'))
-
-
-
-
+app.use(morgan('dev'));
 
 //hashing password
 var createHash = function(password){
@@ -77,22 +72,25 @@ var isValidPassword = function(user, password){
 
 
 //user login
-app.post('/login',function(req,res){		
+app.post('/login',function(req,res){    
   newUser.findOne({username:req.body.username},function(err,user){
+    
+    console.log(user)  
     if(!user){
-	  res.render('login',{'message':"wrong username or password"})
-	};
-
-	if(user){
-	  if(isValidPassword(user,req.body.password)){    
-	    newBook.find({},function(err,books){
-		  if(err) throw err;				  
-		  res.render('user',{"books": books})
-		})	
-	  }else {
-	    res.render('login',{'message':"wrong username or password"})
-	  }
-	}
+    res.render('login',{'message':"wrong username or password"})
+  };
+  if(user){
+    if(isValidPassword(user,req.body.password)){    
+      newBook.find({},function(err,books){
+      if(err) throw err;
+      req.session.user = user;
+      console.log(req.session)              
+      res.render('user',{"books": books})
+    })  
+    }else {
+      res.render('login',{'message':"wrong username or password"})
+    }
+  }
   })
 
 });
@@ -101,32 +99,36 @@ app.post('/login',function(req,res){
 app.post('/signup',function(req,res){
   var password = createHash(req.body.password);
   newUser.findOne({"username": req.body.username},function(err,user){
-	if(err) throw err;
+  if(err) throw err;
 
-	if(user){
-		res.render('signup',{"message" : "username already exist"})
-	} else {
-		var student = new newUser({
-			username: req.body.username,
-			password: password,
-			email: req.body.email
-		})	
+  if(user){
+    res.render('signup',{"message" : "username already exist"})
+  } else {
+    var student = new newUser({
+      username: req.body.username,
+      password: password,
+      email: req.body.email
+    })
+    req.session.user = student;
+    console.log(req.session.user)  
 
-		student.save(function(err){
-			if(err) throw err;
-			console.log('person saved')
-			res.render('confirmation',{"message":"SUCCESS!! YOU CAN NOW MAKE YOU OF OUR LIBRARY. Thank you for joining us."})
-		});
-		
-	};
+    student.save(function(err){
+      if(err) throw err;
+      console.log('person saved')
+      res.render('confirmation',{"message":"SUCCESS!! YOU CAN NOW MAKE YOU OF OUR LIBRARY. Thank you for joining us."})
+    });
+    
+  };
   });
 
 });
 
 //admin log
 app.get('/admin/:id',function(req,res){
-  if(req.params.id === "godson"){
+  if(req.params.id === "godson" && req.session && req.session.user){
     res.render('admin',{"message":"welcome " + req.params.id})
+  } else {
+    res.redirect('/')
   }
 
 });
@@ -136,13 +138,13 @@ app.get('/admin/:id',function(req,res){
 app.get('/api/user/:thebook',function(req,res){
   var dt = datetime.create();
   var formatted = dt.format('m/d/Y H:M:S');
-  newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){		
+  newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){    
     newBook.find({},function(err,books){
-	  if(err){
-  	    res.send("error: 404 not found")
-  	  }
-	    res.render('user',{"books": books})
-	});		
+    if(err){
+        res.send("error: 404 not found")
+      }
+      res.render('user',{"books": books})
+  });   
   });
 
 });
@@ -152,8 +154,8 @@ app.get('/api/delete',function(req,res){
   newBook.remove({book_id: req.query.id},function(err,book){
     if(err){
       res.send("error: 404 not found");
-    }		
-	res.render('admin',{"message":""});
+    }   
+  res.render('admin',{"message":""});
   });
 
 });
@@ -162,9 +164,9 @@ app.get('/api/delete',function(req,res){
 app.get('/api/deleteAll',function(req,res){
   newBook.remove({},function(err,book){
     if(err){
-  	  res.send("error: 404 not found")
-  	}		
-	res.render('admin',{"message":""})
+      res.send("error: 404 not found")
+    }   
+  res.render('admin',{"message":""})
   });
 
 });
@@ -173,9 +175,9 @@ app.get('/api/deleteAll',function(req,res){
 app.get('/api/surcharge',function(req,res){
   newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
     if(err){
-  	  res.send("error: 404 not found")
-  	}
-	res.render('admin',{"message":""})
+      res.send("error: 404 not found")
+    }
+  res.render('admin',{"message":""})
   });
 });
 
@@ -193,44 +195,46 @@ app.get('/api/return',function(req,res,next){
 app.post('/books',function(req,res){
   newBook.findOne({"book_id": req.body.id},function(err,user){
     if(err){
-  	  res.send("error: 404 not found")
-  	}
-	if(user){
-	  res.render('admin',{"message": "Book identity number already exist"})
-	} else {
-	  var dt = datetime.create();
-	  var formatted = dt.format('m/d/Y H:M:S');// e.g. 04/28/2015 21:13:09 			
+      res.send("error: 404 not found")
+    }
+  if(user){
+    res.render('admin',{"message": "Book identity number already exist"})
+  } else {
+    var dt = datetime.create();
+    var formatted = dt.format('m/d/Y H:M:S');// e.g. 04/28/2015 21:13:09      
 
-	  var student = new newBook({
-		book_id: req.body.id,
-		book_title: req.body.title,
-		category: req.body.category,
-		status: req.body.status,
-		date_of_collection: formatted,
-		surcharge: 0
-  	  });
+    var student = new newBook({
+    book_id: req.body.id,
+    book_title: req.body.title,
+    category: req.body.category,
+    status: req.body.status,
+    date_of_collection: formatted,
+    surcharge: 0
+      });
 
-	  student.save(function(err){
-		if(err) throw err;
-		console.log('book saved');
-		res.render('confirmation',{"message":"Book added to the store!!"})
-	  });
-			
-	};
+    student.save(function(err){
+    if(err) throw err;
+    console.log('book saved');
+    res.render('confirmation',{"message":"Book added to the store!!"})
+    });
+      
+  };
 
   });
 
-	
+  
 });
 
 //displaying content
 app.get('/user/:val',function(req,res){
-  if(req.params.val === "jkjustkidding"){
+  if(req.params.val === "jkjustkidding" && req.session && req.session.user){
     newBook.find({},function(err,books){
-	  if(err) throw err;		
-	  res.render('user',{"books": books})
-	});
-		
+      if(err) throw err;    
+      res.render('user',{"books": books})
+    });
+    
+  } else {
+    res.redirect('/')
   };
 
 });
@@ -245,19 +249,10 @@ app.get('/signup',function(req,res){
   res.render('signup',{"message":""})
 });
 
-app.get('/user',function(req,res){
-  res.render('user')
-});
 
 app.get('/signout',function(req,res){
-  req.session.destroy(function(err) {
-	if(err) {
-	  console.log(err);
-	} else {
-	    res.redirect('/');
-	}
-  });
-
+  req.session.destroy()
+  res.redirect('/')
 });
 
 app.get('/admin/godson',function(req,res){
