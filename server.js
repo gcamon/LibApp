@@ -72,7 +72,7 @@ var isValidPassword = function(user, password){
 
 
 //user login
-app.post('/login',function(req,res){    
+app.post('/user',function(req,res){    
   newUser.findOne({username:req.body.username},function(err,user){
     
     console.log(user)  
@@ -244,6 +244,10 @@ app.get('/',function(req,res){
   res.render('login',{"message":""})
 });
 
+app.get('/user',function(req,res){
+  res.send('error 404 : not found')
+})
+
 
 app.get('/signup',function(req,res){
   res.render('signup',{"message":""})
@@ -261,9 +265,6 @@ app.get('/admin/godson',function(req,res){
 
 app.get('/assets', function(req,res,next){
   res.send('pages')
-  next();
-},function(req,res,next){
-  res.send('js');
   next();
 },function(req,res,next){
   res.send('css');

@@ -70,10 +70,10 @@
                                 <th style="width: 18%">DELAY(#)</th>
                             </tr>
                         </thead>
-                        <% for(var i = 1; i < books.length; i++) { %>
+                        <% for(var i = 0; i < books.length; i++) { %>
                         <tbody>
                             <tr>
-                                <td style="width: 10%"><%= i %></td>
+                                <td style="width: 10%"><%= i + 1 %></td>
                                 <td style="width: 25%"><a href="/api/user/<%= books[i].book_id %>"><%= books[i].book_title%></a></td>
                                 <td style="width: 17%"><%= books[i].category %></td>
                                 <td style="width: 15%"><%= books[i].status %></td>
@@ -137,9 +137,9 @@
             </footer>
         </div>
     </div><!-- end of wrapper div -->
-    	<script type="text/javascript" src= "/assets/js/source.js"></script>
+    	<!--<script type="text/javascript" src= "/assets/js/source.js"></script>
 		<script type="text/javascript" src= "/assets/js/client.js"></script>
-        <script type="text/javascript" src="/assets/js/ngroute.js"></script>
+        <script type="text/javascript" src="/assets/js/ngroute.js"></script>-->
 </body>
 </html>
 
