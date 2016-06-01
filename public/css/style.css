@@ -141,6 +141,9 @@ header p.admin button {
 	margin-left: 150px;
 	margin-top:30px;
 }
+span.available{
+	color: rgba(0,0,255,0.8)!important;
+}
 
 .download div.ct div {
 	border-top: 1px solid #fff;
@@ -153,6 +156,7 @@ header p.admin button {
 
 .download div.ct img, div.dg {
 	display: inline-block;
+	float: left;
 }
 
 .download div.ct div.dg p.prac {
@@ -206,18 +210,27 @@ header p.admin button {
 }
 
 .main th{
-	padding: 10px 10px;
+	padding: 10px 0px;
+	font-size:  12px;
 }
 .main th,td {
-	padding-left: 10px
+	padding-left: 0px;
+	text-align:  center;;
 }
 
 .main td {
-	padding: 10px 15px;
-	font-size: 16px;
+	padding: 10px 0px;
+	font-size: 14px;
 	font-style:italic;
 }
 
+.available {
+	color: rgba(0,0,225,0.9);
+}
+
+.borrowed{
+	color: rgba(0,0,0,0.5);
+}
 .infobooks p {
 	text-align: center;
 }
@@ -239,6 +252,10 @@ header p.admin button {
 
 .container-fluid {
 	min-height: 500px!important;
+}
+
+.sn {
+	padding-bottom: 10px!important;
 }
 
 footer {

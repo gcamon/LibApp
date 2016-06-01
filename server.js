@@ -23,9 +23,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/library");
 var Schema = mongoose.Schema;
 
 var personSchema = Schema({
+  firstname: String,
+  lastname: String,
   username: String,
   password: String,
-  email: String
+  email: String,
+  phone: String,
+  address: String
 },{
   collection: "userInfo"
 });
@@ -34,9 +38,14 @@ var bookSchema = Schema({
   book_id: String,
   book_title: String,
   category: String,
+  collector_firstname: String,
+  collector_lastname: String,
+  collector_address: String,
+  collector_phone: String,
   status: String,
   date_of_collection: String,
-  surcharge: Number
+  surcharge: Number,
+  quantity: Number
 },{
   collection: "bookInfo"
 });
@@ -107,7 +116,11 @@ app.post('/signup',function(req,res){
     var student = new newUser({
       username: req.body.username,
       password: password,
-      email: req.body.email
+      email: req.body.email,
+      lastname: req.body.lastname,
+      firstname: req.body.firstname,
+      phone: req.body.phone,
+      address: req.body.address
     })
     req.session.user = student;
     console.log(req.session.user)  
@@ -126,7 +139,6 @@ app.post('/signup',function(req,res){
 //admin log
 app.get('/admin/:id',function(req,res){
   if(req.params.id === "godson" && req.session && req.session.user){
-    req.session.admin = req.params.id;
     res.render('admin',{"message":"welcome " + req.params.id})
   } else {
     res.redirect('/')
@@ -140,7 +152,11 @@ app.get('/api/user/:thebook',function(req,res){
   var dt = datetime.create();
   var formatted = dt.format('m/d/Y H:M:S');
   if(req.session && req.session.user){
-    newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){    
+    newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",
+      date_of_collection: formatted,
+      collector_firstname: req.session.user.firstname,
+      collector_lastname: req.session.user.lastname,
+      collector_phone: req.session.user.phone }},function(err,book){    
       newBook.find({},function(err,books){
         if(err){
             res.send("error: 404 not found")
@@ -151,11 +167,12 @@ app.get('/api/user/:thebook',function(req,res){
   } else {
     res.send('Error 404 : Not found')
   }
+
 });
 
 //deleting a book
 app.get('/api/delete',function(req,res){
-  if(req.session && req.session.user && req.session.admin){
+  if(req.session && req.session.user){
     newBook.remove({book_id: req.query.id},function(err,book){
       if(err){
         res.send("error: 404 not found");
@@ -165,48 +182,37 @@ app.get('/api/delete',function(req,res){
   } else {
     res.send("error: 404 not found");
   }
+
 });
 
 //deleting all books
 app.get('/api/deleteAll',function(req,res){
-  if(req.session && req.session.user && req.session.admin){
-    newBook.remove({},function(err,book){
-      if(err){
-        res.send("error: 404 not found")
-      }   
-      res.render('admin',{"message":""})
-    });
-  } else {
-    res.send("error: 404 not found");
-  }
+  newBook.remove({},function(err,book){
+    if(err){
+      res.send("error: 404 not found")
+    }   
+  res.render('admin',{"message":""})
+  });
 
 });
 
 //api surcharging user
 app.get('/api/surcharge',function(req,res){
-  if(req.session && req.session.user && req.session.admin){
-    newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
-      if(err){
-        res.send("error: 404 not found")
-      }
-      res.render('admin',{"message":""})
-    });
-  } else {
-    res.send("error: 404 not found");
-  }
+  newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
+    if(err){
+      res.send("error: 404 not found")
+    }
+  res.render('admin',{"message":""})
+  });
 });
 
 //returning book by the admin
 app.get('/api/return',function(req,res,next){
-  if(req.session && req.session.user && req.session.admin){
-    var dt = datetime.create();
-    var formatted = dt.format('m/d/Y H:M:S');
-    newBook.update({book_id: req.query.id}, {$set: {status: "Available",date_of_collection: formatted,surcharge: 0}},function(err,book){
-      res.render('admin',{"message":""})
-    });
-  } else {
-    res.send("error: 404 not found");
-  }
+  var dt = datetime.create();
+  var formatted = dt.format('m/d/Y H:M:S');
+  newBook.update({book_id: req.query.id}, {$set: {status: "Available",date_of_collection: formatted,surcharge: 0}},function(err,book){
+    res.render('admin',{"message":""})
+  });
 
 });
 
@@ -226,9 +232,14 @@ app.post('/books',function(req,res){
       book_id: req.body.id,
       book_title: req.body.title,
       category: req.body.category,
-      status: req.body.status,
+      status: req.body.status || "Available",
+      collector_firstname: " ",
+      collector_lastname: " ",
+      collector_address: " ",
+      collector_phone: " ",
       date_of_collection: formatted,
-      surcharge: 0
+      surcharge: 0,
+      quantity: req.body.quantity || 1
     });
 
     student.save(function(err){

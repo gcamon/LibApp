@@ -19,7 +19,7 @@
     		</div>
     	</div>
     </header>
-    <section class="container-fluid download">
+    <section class="container-fluid download sn">
     	<div class="ct">
         	<img src="/assets/images/babe.png"/>
             <div class="dg">
@@ -27,9 +27,13 @@
                 	SIGNUP 
                 </p>
                 <form method="POST" action="/signup" enctype="">
-                	<input type="text" name="username" placeholder="Enter username" class="lg" required/><br/>
+                    <input type="text" name="firstname" placeholder="Enter firstname" class="lg" required/><br/>
+                    <input type="text" name="lastname" placeholder="Enter lastname" class="lg" required/><br/>
+                	<input type="text" name="username" placeholder="Enter your Registration number" class="lg" required/><br/>
                 	<input type="password" name="password" placeholder="Enter password" class="lg" required/><br/>
                     <input type="email" name="email" placeholder="Enter email" class="lg" required/><br/>
+                    <input type="text" name="address" placeholder="Home Address" class="lg" required/><br/>
+                    <input type="text" name="phone" placeholder="Enter your phone number" class="lg" required/><br/>
                 	<input type="submit" value="send" class="userlogin btn btn-primary"/>
                 </form>
                 <p class="notmember"> 

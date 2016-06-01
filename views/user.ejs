@@ -10,12 +10,12 @@
 			(function(){
 				window.addEventListener('load',function(){
 
-				var btnLog = document.getElementById('adminlog');
-				var btnClose = document.getElementById('btnclose');
-				var target = document.getElementById('logField');
+				var target = document.getElementById('book');
+				var thebook = document.getElementById('book');
+				
 				
 
-				var drpdown = {
+				var borrow = {
 					adminToggleDown: function(){
 						target.setAttribute('class', "open")
 					},
@@ -26,11 +26,8 @@
 					
 				};
 
-
-
 				btnLog.addEventListener('click',drpdown.adminToggleDown,false);
-				btnClose.addEventListener('click',drpdown.adminToggleUp,false);
-				
+				btnClose.addEventListener('click',drpdown.adminToggleUp,false);		
 
 				})
 
@@ -48,7 +45,7 @@
             			<a href="/">Go<span>Library</span></a>
             		</div>
             		<div class="col-sm-6 col-md-6 col-lg-6">
-            			<p class="admin pull-right" >
+            			<p class="admin pull-right">
             				<a href ="/signout" style="color:#fff!important;display: block;padding: 15px 10px; margin-top: 30px;
                              font-size: 18px;background-color: inherit;width: 100px">Sign out</a>
             			</p>
@@ -61,25 +58,31 @@
                     <table>
                         <thead>
                             <tr>
-                                <th style="width: 10%">S/N</th>
-                                <th style="width: 25%">TITLE</th>
-                                <th style="width: 17%">CATEGORY</th>
-                                <th style="width: 15%">STATUS</th>
-                                <th style="width: 10%">BOOK ID</th>
-                                <th style="width: 15%">DATE / TIME</th>
-                                <th style="width: 18%">DELAY(#)</th>
+                                <th style="width: 5%">S/N</th>
+                                <th style="width: 20%">TITLE</th>                                
+                                <th style="width: 12%">CATEGORY</th>
+                                <th style="width: 5%">QUANTITY</th>
+                                <th style="width: 10%">STATUS</th>
+                                <th style="width: 8%">BOOK ID</th>
+                                <th style="width: 10%">COLLECTOR'S NAME</th>
+                                <th style="width: 10%">COLLECTOR'S PHONE</th>
+                                <th style="width: 10%">DATE / TIME</th>
+                                <th style="width: 10%">DELAY(#)</th>
                             </tr>
                         </thead>
                         <% for(var i = 0; i < books.length; i++) { %>
                         <tbody>
                             <tr>
-                                <td style="width: 10%"><%= i + 1 %></td>
-                                <td style="width: 25%"><a href="/api/user/<%= books[i].book_id %>"><%= books[i].book_title%></a></td>
-                                <td style="width: 17%"><%= books[i].category %></td>
-                                <td style="width: 15%"><%= books[i].status %></td>
-                                <td style="width: 10%"><%= books[i].book_id %></td>
-                                <td style="width: 15%"><%= books[i].date_of_collection %></td>
-                                <td style="width: 18%; color : red"><%= books[i].surcharge %></td>
+                                <td style="width: 5%"><%= i + 1 %></td>
+                                <td style="width: 20% color: blue"><a href="/api/user/<%= books[i].book_id %>" id="book"><span style="color: rgba(0,0,255,0.7)"><%= books[i].book_title%></span></a></td>                                
+                                <td style="width: 12%"><%= books[i].category %></td>
+                                <td style="width: 8%"><%= books[i].quantity %></td>
+                                <td style="width: 10%"><%= books[i].status %></td>
+                                <td style="width: 8%"><%= books[i].book_id %></td>
+                                <td style="width: 15%"><%=books[i].collector_firstname + " " + books[i].collector_lastname%></td>
+                                <td style="width: 15%"><%=books[i].collector_phone%></td>
+                                <td style="width: 10%"><%= books[i].date_of_collection %></td>
+                                <td style="width: 10%; color : red"><%= books[i].surcharge %></td>
                             </tr>
                         </tbody>
                         <% } %>
