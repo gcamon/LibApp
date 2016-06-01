@@ -126,6 +126,7 @@ app.post('/signup',function(req,res){
 //admin log
 app.get('/admin/:id',function(req,res){
   if(req.params.id === "godson" && req.session && req.session.user){
+    req.session.admin = req.params.id;
     res.render('admin',{"message":"welcome " + req.params.id})
   } else {
     res.redirect('/')
@@ -154,7 +155,7 @@ app.get('/api/user/:thebook',function(req,res){
 
 //deleting a book
 app.get('/api/delete',function(req,res){
-  if(req.session && req.session.user){
+  if(req.session && req.session.user && req.session.admin){
     newBook.remove({book_id: req.query.id},function(err,book){
       if(err){
         res.send("error: 404 not found");
@@ -168,7 +169,7 @@ app.get('/api/delete',function(req,res){
 
 //deleting all books
 app.get('/api/deleteAll',function(req,res){
-  if(req.session && req.session.user){
+  if(req.session && req.session.user && req.session.admin){
     newBook.remove({},function(err,book){
       if(err){
         res.send("error: 404 not found")
@@ -183,7 +184,7 @@ app.get('/api/deleteAll',function(req,res){
 
 //api surcharging user
 app.get('/api/surcharge',function(req,res){
-  if(req.session && req.session.user){
+  if(req.session && req.session.user && req.session.admin){
     newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
       if(err){
         res.send("error: 404 not found")
@@ -197,7 +198,7 @@ app.get('/api/surcharge',function(req,res){
 
 //returning book by the admin
 app.get('/api/return',function(req,res,next){
-  if(req.session && req.session.user){
+  if(req.session && req.session.user && req.session.admin){
     var dt = datetime.create();
     var formatted = dt.format('m/d/Y H:M:S');
     newBook.update({book_id: req.query.id}, {$set: {status: "Available",date_of_collection: formatted,surcharge: 0}},function(err,book){
@@ -222,13 +223,13 @@ app.post('/books',function(req,res){
     var formatted = dt.format('m/d/Y H:M:S');// e.g. 04/28/2015 21:13:09      
 
     var student = new newBook({
-    book_id: req.body.id,
-    book_title: req.body.title,
-    category: req.body.category,
-    status: req.body.status,
-    date_of_collection: formatted,
-    surcharge: 0
-      });
+      book_id: req.body.id,
+      book_title: req.body.title,
+      category: req.body.category,
+      status: req.body.status,
+      date_of_collection: formatted,
+      surcharge: 0
+    });
 
     student.save(function(err){
     if(err) throw err;
