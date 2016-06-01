@@ -138,56 +138,74 @@ app.get('/admin/:id',function(req,res){
 app.get('/api/user/:thebook',function(req,res){
   var dt = datetime.create();
   var formatted = dt.format('m/d/Y H:M:S');
-  newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){    
-    newBook.find({},function(err,books){
-    if(err){
-        res.send("error: 404 not found")
-      }
-      res.render('user',{"books": books})
-  });   
+  if(req.session && req.session.user){
+    newBook.update({book_id: req.params.thebook}, {$set: {status: "borrowed",date_of_collection: formatted}},function(err,book){    
+      newBook.find({},function(err,books){
+        if(err){
+            res.send("error: 404 not found")
+        }
+        res.render('user',{"books": books})
+      });   
   });
-
+  } else {
+    res.send('Error 404 : Not found')
+  }
 });
 
 //deleting a book
 app.get('/api/delete',function(req,res){
-  newBook.remove({book_id: req.query.id},function(err,book){
-    if(err){
-      res.send("error: 404 not found");
-    }   
-  res.render('admin',{"message":""});
-  });
-
+  if(req.session && req.session.user){
+    newBook.remove({book_id: req.query.id},function(err,book){
+      if(err){
+        res.send("error: 404 not found");
+      }   
+      res.render('admin',{"message":""});
+    });
+  } else {
+    res.send("error: 404 not found");
+  }
 });
 
 //deleting all books
 app.get('/api/deleteAll',function(req,res){
-  newBook.remove({},function(err,book){
-    if(err){
-      res.send("error: 404 not found")
-    }   
-  res.render('admin',{"message":""})
-  });
+  if(req.session && req.session.user){
+    newBook.remove({},function(err,book){
+      if(err){
+        res.send("error: 404 not found")
+      }   
+      res.render('admin',{"message":""})
+    });
+  } else {
+    res.send("error: 404 not found");
+  }
 
 });
 
 //api surcharging user
 app.get('/api/surcharge',function(req,res){
-  newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
-    if(err){
-      res.send("error: 404 not found")
-    }
-  res.render('admin',{"message":""})
-  });
+  if(req.session && req.session.user){
+    newBook.update({book_id: req.query.id}, {$inc: {surcharge: 100}},function(err,book){
+      if(err){
+        res.send("error: 404 not found")
+      }
+      res.render('admin',{"message":""})
+    });
+  } else {
+    res.send("error: 404 not found");
+  }
 });
 
 //returning book by the admin
 app.get('/api/return',function(req,res,next){
-  var dt = datetime.create();
-  var formatted = dt.format('m/d/Y H:M:S');
-  newBook.update({book_id: req.query.id}, {$set: {status: "Available",date_of_collection: formatted,surcharge: 0}},function(err,book){
-    res.render('admin',{"message":""})
-  });
+  if(req.session && req.session.user){
+    var dt = datetime.create();
+    var formatted = dt.format('m/d/Y H:M:S');
+    newBook.update({book_id: req.query.id}, {$set: {status: "Available",date_of_collection: formatted,surcharge: 0}},function(err,book){
+      res.render('admin',{"message":""})
+    });
+  } else {
+    res.send("error: 404 not found");
+  }
 
 });
 
