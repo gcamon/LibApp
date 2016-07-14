@@ -7,31 +7,44 @@
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
 <script type="text/javascript">
-			(function(){
-				window.addEventListener('load',function(){
+			function ck (){
+                var httpobject = function(){
+    				var xhr;
+                    if (window.XMLHttpRequest) { // check for support
+                    // if it's supported, use it because it's better
+                        xhr = new XMLHttpRequest();
+                    } else if (window.ActiveXObject) { // check for the IE 6 Ajax
+                    // save it to the xhr variable
+                        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    // spit out the correct one so we can use it
+                    return xhr;
+                }
 
-				var target = document.getElementById('book');
-				var thebook = document.getElementById('book');
-				
-				
+                var ajaxCall = function(dataURL,cb) {
+                    var request = httpobject()
+                    request.onreadystatechange = function(){
+                        if(request.readystate === 4 && request.status === 200){
+                            var error = JSON.parse(request.responseText);
+                            if(error){
+                                cb(error);
+                            }
+                        }
+                    }
 
-				var borrow = {
-					adminToggleDown: function(){
-						target.setAttribute('class', "open")
-					},
+                    request.open("GET",dataURL, true);
+                    request.send(null);
+                };
 
-					adminToggleUp: function(){
-						target.setAttribute('class','backup')
-					}
-					
-				};
+                window.onload = checkError
 
-				btnLog.addEventListener('click',drpdown.adminToggleDown,false);
-				btnClose.addEventListener('click',drpdown.adminToggleUp,false);		
-
-				})
-
-			})()
+                function checkError (){
+                    ajaxCall('/api/user/:thebook',function(error){
+                        var target = document.getElementById('borrowed');
+                        target.innerHTML += '<span>' + error + '</span>';
+                    });
+                }
+		    }
 			
 </script>
 
@@ -55,10 +68,11 @@
             </header>
             <section class="container-fluid" style="background-color: #eee">
             	<div class="main">
+                                                  
                     <table>
                         <thead>
                             <tr>
-                                <th style="width: 5%">S/N</th>
+                                <th style="width: 4%">S/N</th>
                                 <th style="width: 20%">TITLE</th>                                
                                 <th style="width: 12%">CATEGORY</th>
                                 <th style="width: 5%">QUANTITY</th>
@@ -73,8 +87,8 @@
                         <% for(var i = 0; i < books.length; i++) { %>
                         <tbody>
                             <tr>
-                                <td style="width: 5%"><%= i + 1 %></td>
-                                <td style="width: 20% color: blue"><a href="/api/user/<%= books[i].book_id %>" id="book"><span style="color: rgba(0,0,255,0.7)"><%= books[i].book_title%></span></a></td>                                
+                                <td style="width: 4%"><%= i + 1 %></td>
+                                <td style="width: 20% color: blue"><a href="/api/user/<%= books[i].book_id %>" id="book" onClick = ck()><span style="color: rgba(0,0,255,0.7)"><%= books[i].book_title%></span></a></td>                                
                                 <td style="width: 12%"><%= books[i].category %></td>
                                 <td style="width: 8%"><%= books[i].quantity %></td>
                                 <td style="width: 10%"><%= books[i].status %></td>
@@ -83,6 +97,20 @@
                                 <td style="width: 15%"><%=books[i].collector_phone%></td>
                                 <td style="width: 10%"><%= books[i].date_of_collection %></td>
                                 <td style="width: 10%; color : red"><%= books[i].surcharge %></td>
+                                <% if(books[i].multiple.check) { %>
+                                <tbody>
+                                <td style="width: 4%"><%= %></td>
+                                <td style="width: 20% color: blue"><a href="/api/user/<%= books[i].book_id %>" id="book"><span style="color: rgba(0,0,255,0.7)"><%= "---" %></span></a></td>                                
+                                <td style="width: 12%"><%= "---" %></td>
+                                <td style="width: 8%"><%= books[i].multiple.quantity%></td>
+                                <td style="width: 10%"><%= books[i].multiple.status %></td>
+                                <td style="width: 8%"><%= books[i].book_id %> + "/" + "copy" %></td>
+                                <td style="width: 15%"><%=books[i].multiple.collector_firstname + " " + books[i].multiple.collector_lastname%></td>
+                                <td style="width: 15%"><%=books[i].multiple.collector_phone%></td>
+                                <td style="width: 10%"><%= books[i].multiple.date_of_collection %></td>
+                                <td style="width: 10%; color : red"><%= books[i].multiple.surcharge %></td>
+                                </tbody>
+                                <% } %>
                             </tr>
                         </tbody>
                         <% } %>
